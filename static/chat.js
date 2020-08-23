@@ -68,11 +68,11 @@ function getRoom() {
       // When another person joins the chat room, we'll display their video.
       webrtc.on("videoAdded", function(video, peer) {
         console.log("user added to chat", peer);
-        var remotes = document.getElementById("remotes");
+        var remotes = true;
   
         if (remotes) {
           var outerContainer = document.createElement("div");
-          outerContainer.className = "col-md-6";
+          outerContainer.className = "col-md-3";
   
           var container = document.createElement("div");
           container.className = "videoContainer";
@@ -122,24 +122,24 @@ function getRoom() {
           }
   
           outerContainer.appendChild(container);
-          remotes.appendChild(outerContainer);
+          document.getElementById('canvasHolder').appendChild(outerContainer);
   
           // If we're adding a new video we need to modify bootstrap so we
           // only get two videos per row.
-          var remoteVideos = document.getElementById("remotes").getElementsByTagName("video").length;
+          //var remoteVideos = document.getElementById("remotes").getElementsByTagName("video").length;
   
-          if (!(remoteVideos % 2)) {
-            var spacer = document.createElement("div");
-            spacer.className = "w-100";
-            remotes.appendChild(spacer);
-          }
+          //if (!(remoteVideos % 2)) {
+           // var spacer = document.createElement("div");
+           // spacer.className = "w-100";
+            //remotes.appendChild(spacer);
+         // }
         }
       });
   
       // If a user disconnects from chat, we need to remove their video feed.
       webrtc.on("videoRemoved", function(video, peer) {
         console.log("user removed from chat", peer);
-        var remotes = document.getElementById("remotes");
+        var remotes = document.getElementById("canvasHolder");
         var el = document.getElementById("container_" + webrtc.getDomId(peer));
         if (remotes && el) {
           remotes.removeChild(el.parentElement);

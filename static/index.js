@@ -76,6 +76,7 @@ function main() {
 
   document.getElementById('loginButton').onclick = setLogin;
   function setLogin() {
+	  document.getElementById('loginButton').disabled = true;
         username = document.getElementById('username').value;
         window.onbeforeunload = function() {
             exit = true;
@@ -83,6 +84,32 @@ function main() {
             fetch(url, {keepalive: true})
         };
         avatarName = document.getElementById('avatar').value;
+	  {
+
+//   {
+//     const mtlLoader = new MTLLoader();
+//     mtlLoader.load("convention256/convention256.mtl", mtlParseResult => {
+//         const materials = MtlObjBridge.addMaterialsFromMtlLoader(mtlParseResult);
+//         const objLoader = new OBJLoader2();
+//         objLoader.addMaterials(materials);
+//         objLoader.load("convention256/convention256.obj", obj => {
+//             obj.name = "convention"
+//             scene.add(obj) });
+//     });
+//   }
+
+    const mtlLoader = new MTLLoader();
+          var map = document.getElementById('map').value
+    mtlLoader.load("static/" + map + "/" + map + ".mtl", mtlParseResult => {
+        const materials = MtlObjBridge.addMaterialsFromMtlLoader(mtlParseResult);
+        const objLoader = new OBJLoader2();
+        objLoader.addMaterials(materials);
+        objLoader.load("static/" + map + "/" + map + ".obj", obj => {
+            obj.name = map
+            scene.add(obj) });
+    });
+  }
+	
         spawnPlayer(username, avatarName, (up, ap) => {});
     }
 
@@ -120,15 +147,6 @@ function spawnPlayer(userparam, avatarparam, callback) {
 //     });
 //   }
 
-    const mtlLoader = new MTLLoader();
-    mtlLoader.load("static/townSquare/townSquareMagica.mtl", mtlParseResult => {
-        const materials = MtlObjBridge.addMaterialsFromMtlLoader(mtlParseResult);
-        const objLoader = new OBJLoader2();
-        objLoader.addMaterials(materials);
-        objLoader.load("static/townSquare/townSquareMagica.obj", obj => { 
-            obj.name = "townSquare"
-            scene.add(obj) });
-    });
   }
 
     var xSpeed = 0.25;
@@ -255,7 +273,8 @@ function spawnPlayer(userparam, avatarparam, callback) {
                                 other.rotation.x = rx;
                                 other.rotation.y = ry;
                                 other.rotation.z = rz;
-                                // Set nametag
+                                
+				// Set nametag
                                 var dist = camera.position.distanceTo(other.position)
                                 var width = window.innerWidth, height = window.innerHeight;
                                 var widthHalf = width / 2, heightHalf = height / 2;

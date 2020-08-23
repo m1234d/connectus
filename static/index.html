@@ -20,6 +20,10 @@
                 <option value="scarf_girl">Velma</option>
                 <option value="brown_dude">Neel</option>
                 <option value="brown_girl">Skye</option>
+	      </select><select name="map" id="map">
+                <option value="convention256ShortTable">Convention</option>
+                <option value="townSquareMagica">Park</option>
+
 
               </select><button id="loginButton" type="button" class="btn btn-light">Log In</button></p>
               <div id="url" class="alert alert-dark" role="alert">
@@ -29,20 +33,19 @@
             <div class="col"></div>
           </div>
     
-          <div id="remotes" class="row">
-            <div class="col-md-6">
+        </div>
+        <script type="module" src="static/index.js"></script>
+        <div id="canvasHolder" class="wrapper row">
+	    <div class="col-md-3">
               <div class="videoContainer">
                 <video id="selfVideo"></video>
                 <meter id="localVolume" class="volume"></meter>
               </div>
             </div>
-          </div>
-        </div>
-        <script src="static/chat.js"></script>
-        <script type="module" src="static/index.js"></script>
-        <div id="canvasHolder" class="wrapper">
+
             <canvas id="textCanvas" width="100" height="100" 
             style="position: absolute; left: 0; top: 0; z-index: 1; pointer-events:none;"></canvas>
         </div>
+	<script src="static/chat.js"></script>
     </body>
 </html>

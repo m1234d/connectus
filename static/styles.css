@@ -72,7 +72,10 @@ body {
     height: 10px;                
     display: none;               
   }                              
-  
+  .col-md-3 {
+	  margin-bottom: 1em;
+	  z-index: 3
+  }
   .connectionstate {             
     position: absolute;          
     top: 10px;                   

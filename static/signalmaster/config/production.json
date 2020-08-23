@@ -1,0 +1,16 @@
+{
+  "isDev": true,
+  "server": {
+    "port": 8888
+  },
+  "rooms": {
+    "/* maxClients */": "/* maximum number of clients per room. 0 = no limit */",
+    "maxClients": 0
+  },
+  "stunservers": [
+    {
+      "urls": "$STUNSERVER_URL"
+    }
+  ],
+  "turnservers": []
+}

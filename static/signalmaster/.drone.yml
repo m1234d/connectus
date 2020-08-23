@@ -1,0 +1,57 @@
+pipeline:
+  build_docker:
+    image: plugins/docker
+    repo: simplewebrtc/signalmaster
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA:0:8}
+    secrets: [ docker_username, docker_password ]
+    when:
+      event: [ deployment, tag ]
+  drone_helm_tag:
+    image: one000mph/drone-helm:stage
+    skip_tls_verify: false
+    chart: andyet/signalmaster
+    prefix: staging
+    recreate_pods: true
+    helm_repos: andyet=https://andyet-helm-charts.storage.googleapis.com/
+    release: signalmaster
+    values_files: values-stage.yaml
+    values: deployment.image.repository=simplewebrtc/signalmaster:${DRONE_COMMIT_SHA:0:8},secrets.data.STUNSERVER_URL=$${STUNSERVER_URL},secrets.data.TURNSERVER_URL=$${TURNSERVER_URL},secrets.data.TURNSERVER_SECRET=$${TURNSERVER_SECRET}
+    secrets: [
+      staging_STUNSERVER_URL,
+      staging_TURNSERVER_URL,
+      staging_TURNSERVER_SECRET,
+      staging_KUBERNETES_CERTIFICATE,
+      staging_KUBERNETES_TOKEN,
+      staging_API_SERVER ]
+    when:
+      event: tag
+  drone_helm_deploy:
+    image: one000mph/drone-helm:stage
+    skip_tls_verify: false
+    chart: andyet/signalmaster
+    prefix: prod
+    recreate_pods: true
+    helm_repos: andyet=https://andyet-helm-charts.storage.googleapis.com/
+    release: signalmaster
+    values_files: values-prod.yaml
+    values: secrets.data.STUNSERVER_URL=$${STUNSERVER_URL},secrets.data.TURNSERVER_URL=$${TURNSERVER_URL},secrets.data.TURNSERVER_SECRET=$${TURNSERVER_SECRET}
+    secrets: [
+      prod_STUNSERVER_URL,
+      prod_TURNSERVER_URL,
+      prod_TURNSERVER_SECRET,
+      prod_KUBERNETES_CERTIFICATE,
+      prod_KUBERNETES_TOKEN,
+      prod_API_SERVER ]
+    when:
+      event: deployment
+  slack:
+    image: andyet/drone-slack:stable
+    pull: true
+    username: drone
+    channel: io-alerts
+    secrets: [ slack_webhook, github_access_token, github_slack_lookup ]
+    when:
+      status: [ success, failure ]
+
